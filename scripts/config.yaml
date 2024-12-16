@@ -1,0 +1,107 @@
+
+endpoints:
+  mistralai/Mistral-Large-Instruct-2411:
+    weight: 3
+    selector: "RoundRobinLoadBalancer"
+    endpoints:
+      - host: 
+        port: 
+        api_key: 
+      - host: 
+        port: 
+        api_key: 
+      - host: 
+        port: 
+        api_key: 
+  Qwen/Qwen2.5-72B-Instruct:
+    weight: 
+    selector: "RoundRobinLoadBalancer"
+    endpoints:
+      - host: 
+        port: 
+        api_key: 
+  CohereForAI/aya-expanse-32b:
+    weight: 
+    selector: "RoundRobinLoadBalancer"
+    endpoints:
+      - host: 
+        port: 
+        api_key: 
+
+gen_config:
+  Qwen/Qwen2.5-72B-Instruct:
+    max_tokens: 2048
+    temperature: 1.1
+    top_p: 0.995
+    extra_body:
+      top_k: -1
+      min_p: 0.0
+      repetition_penalty: 1.0
+      length_penalty: 1.0
+      stop:
+        - "<|endoftext|>"
+        - "[INST]"
+        - "[/INST]"
+        - "<|im_end|>"
+        - "<|end|>"
+        - "<|eot_id|>"
+        - "<end_of_turn>"
+        - "<eos>"
+        - "<|END_OF_TURN_TOKEN|>"
+        - "<EOS_TOKEN>"
+  CohereForAI/aya-expanse-32b:
+    max_tokens: 2048
+    temperature: 1.1
+    top_p: 0.995
+    extra_body:
+      top_k: -1
+      min_p: 0.0
+      repetition_penalty: 1.0
+      length_penalty: 1.0
+      stop:
+        - "<|endoftext|>"
+        - "[INST]"
+        - "[/INST]"
+        - "<|im_end|>"
+        - "<|end|>"
+        - "<|eot_id|>"
+        - "<end_of_turn>"
+        - "<eos>"
+  mistralai/Mistral-Large-Instruct-2411:
+    max_tokens: 2048
+    temperature: 1.1
+    top_p: 0.995
+    extra_body:
+      top_k: -1
+      min_p: 0.0
+      repetition_penalty: 1.0
+      length_penalty: 1.0
+      stop:
+        - "<|endoftext|>"
+        - "[INST]"
+        - "[/INST]"
+        - "<|im_end|>"
+        - "<|end|>"
+        - "<|eot_id|>"
+        - "<end_of_turn>"
+        - "<eos>"
+  google/gemma-2-27b-it:
+    max_tokens: 2048
+    temperature: 1.1
+    top_p: 0.995
+    extra_body:
+      top_k: -1
+      min_p: 0.0
+      repetition_penalty: 1.0
+      length_penalty: 1.0
+      stop:
+        - "<|endoftext|>"
+        - "[INST]"
+        - "[/INST]"
+        - "<|im_end|>"
+        - "<|end|>"
+        - "<|eot_id|>"
+        - "<end_of_turn>"
+        - "<eos>"
+
+

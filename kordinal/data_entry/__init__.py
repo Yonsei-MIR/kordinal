@@ -1,0 +1,1 @@
+from kordinal.data_entry.data_entry import DataEntry

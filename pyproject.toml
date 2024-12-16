@@ -1,0 +1,25 @@
+[project]
+name = "kordinal"
+version = "0.0.1"
+description = "A Korean-oriented LLM agent"
+authors = [
+    { name="Giyeong Oh", email="hard2251@yonsei.ac.kr" }
+]
+readme = "README.md"
+license = { text = "Apache-2.0" }
+keywords = ["LLM", "NLP", "Korean", "AI", "Agent", "Swarm"]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "tqdm",
+    "openai"
+    "langid"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
