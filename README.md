@@ -14,24 +14,22 @@
 
 2. Run your preferred LLMs and configure them by editing `scripts/config.yaml`. Example setup for using two LLMs:
 
-   ```yaml
-   endpoints:
-     mistralai/Mistral-Large-Instruct-2411:
-       weight: 3
-       selector: "RoundRobinLoadBalancer"
-       endpoints:
-         - host: <your_host>
-           port: <your_port>
-           api_key: <your_api_key>
-     Qwen/Qwen2.5-72B-Instruct:
-       weight: 2
-       selector: "RoundRobinLoadBalancer"
-       endpoints:
-         - host: <your_host>
-           port: <your_port>
-           api_key: <your_api_key>
-
-
+```yaml
+endpoints:
+  mistralai/Mistral-Large-Instruct-2411:
+    weight: 3
+    selector: "RoundRobinLoadBalancer"
+    endpoints:
+      - host: <your_host>
+        port: <your_port>
+        api_key: <your_api_key>
+  Qwen/Qwen2.5-72B-Instruct:
+    weight: 2
+    selector: "RoundRobinLoadBalancer"
+    endpoints:
+      - host: <your_host>
+        port: <your_port>
+        api_key: <your_api_key>
 gen_config:
   Qwen/Qwen2.5-72B-Instruct:
     max_tokens: 2048
