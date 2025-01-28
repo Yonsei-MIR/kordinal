@@ -174,20 +174,18 @@ Assistant: {test['data'][2]['content']}
                             "thought": thought,
                         }
                     }
-                    break  # 성공적으로 생성되었으므로 반복 종료
+                    break 
                 else:
-                    # generated_expaned_question이 비어있는 경우 재시도
+                    # if generated_expaned_question empty, retry
                     retry_count += 1
-                    priority -= retry_count  # 우선순위 조정
+                    priority -= retry_count
                     continue
             except Exception as e:
                 print(f"JSON parsing error: {e}")
-                # content가 비어있는 경우 재시도
                 retry_count += 1
                 priority -= retry_count
                 continue
         else:
-            # 응답이 None인 경우 재시도
             retry_count += 1
             priority -= retry_count
             continue
@@ -254,7 +252,7 @@ async def main():
     print(test_data[0])
 
     max_concurrent_tasks = 140
-    max_concurrent_tasks = int(1.1 * max_concurrent_tasks)  # 10% 추가
+    max_concurrent_tasks = int(1.1 * max_concurrent_tasks)
     results = []
     save_interval = 5000
     save_path = "synthetic_questions"
@@ -263,7 +261,6 @@ async def main():
 
     semaphore = asyncio.Semaphore(max_concurrent_tasks)
 
-    # 이미 처리된 prompt_id를 저장할 집합 생성
     processed_prompt_ids = set()
     processed_data = []
 
@@ -277,9 +274,6 @@ async def main():
                 sample = saved_dataset[idx]
                 prompt_id = sample.get("data", {}).get('metadata', {}).get('prompt_id', '')
                 processed_models = sample.get('synthetic_question', {}).keys()
-                # print(sample)
-                # print(prompt_id, model, processed_models, processed_prompt_ids)
-                # print(prompt_id not in processed_prompt_ids, model in processed_models)
                 if (prompt_id not in processed_prompt_ids) and (model in processed_models):
                     processed_prompt_ids.add(prompt_id)
                     processed_data.append(sample)
@@ -293,13 +287,11 @@ async def main():
                 return await process_sample(sample, session, api_key, json_scheme)
 
     tasks_list = []
-    # for idx in range(len(test_data)):
     pbar = tqdm(range(len(test_data)), desc="Processing samples", unit="samples", leave=False)
     for idx in pbar:
         sample = test_data[idx]
         prompt_id = sample["data"].get('metadata', {}).get('prompt_id', '')
         if prompt_id in processed_prompt_ids:
-            # 이미 처리된 경우 건너뛰기
             continue
         task = asyncio.create_task(bounded_process_sample(sample))
         tasks_list.append(task)
@@ -309,7 +301,6 @@ async def main():
     for idx, task in enumerate(tqdm(asyncio.as_completed(tasks_list), total=len(tasks_list), desc="Querying samples", smoothing=0.01)):
         result = await task
         processed_data.append(result)
-        # 처리된 prompt_id를 집합에 추가
         prompt_id = result["data"].get('metadata', {}).get('prompt_id', '')
         if prompt_id:
             processed_prompt_ids.add(prompt_id)
@@ -317,7 +308,6 @@ async def main():
             print(f"Saving results at index idx={idx}...")
             results = Dataset.from_list(processed_data)
             results.save_to_disk(f"{save_path}/{len(processed_data)+idx}")
-            # save_dataset(results, f"{save_path}/{idx + 1}")
             results = []
             del results
         
@@ -335,8 +325,7 @@ async def main():
             f'{result["data"]["data"][1:]}\n' \
             f'{result["synthetic_question"]}' \
         )
-    
-    # 남은 데이터 저장
+
     results = Dataset.from_list(processed_data)
     print(results)
     print("Saving final results...")

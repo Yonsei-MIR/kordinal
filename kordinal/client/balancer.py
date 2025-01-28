@@ -29,8 +29,21 @@ class IndexBasedLoadBalancer(LoadBalancer):
     def __repr__(self) -> str:
         return str(self)
 
+    def remove(self, endpoint):
+        with self.lock:
+            if endpoint in self.endpoints:
+                self.endpoints.remove(endpoint)
+                # Adjust index if it goes out of bounds
+                if self.index >= len(self.endpoints):
+                    self.index = 0
+                return True  # Successfully removed
+            return False  # Endpoint not found
+
     def get_endpoint(self):
-        return self.endpoints[self.index]
+        with self.lock:
+            if not self.endpoints:
+                raise RuntimeError("No endpoints available in the load balancer.")
+            return self.endpoints[self.index]
 
     def update_metrics(self, endpoint, response_time, success=True):
         pass
@@ -57,9 +70,13 @@ class LeastRequestsLoadBalancer(IndexBasedLoadBalancer):
         return self.endpoints[min_idx]
 
     def update_metrics(self, endpoint, response_time, success=True):
-        # 요청 완료 후 성공 여부에 따라 request_counts 조정 가능
-        # 여기서는 단순히 성공/실패와 무관하게 카운트는 이미 증가된 상태
-        pass
+        # 요청 완료 후 요청 카운트를 감소시킴
+        with self.lock:
+            try:
+                idx = self.endpoints.index(endpoint)
+                self.request_counts[idx] = max(0, self.request_counts[idx] - 1)  # 카운트 감소 (최소 0)
+            except ValueError:
+                pass  # 엔드포인트가 이미 제거된 경우
 
 class FastestResponseLoadBalancer(IndexBasedLoadBalancer):
     def __init__(self, endpoints):
