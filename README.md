@@ -80,7 +80,7 @@ gen_config:
 ## Important Notes
 
 - This process can generate **high traffic**, so be mindful of resource limitations.
-- The generated dataset using this library is available at: [Aka-LLAMA Korean Dataset (Raw)](https://huggingface.co/mirlab/aka-llama-korean-dataset-raw)
+- The generated dataset using this library is available at: [Aka-LLAMA Korean Dataset (Raw)](https://huggingface.co/mirlab/aka-llama-korean-dataset-multiturn-raw)
 
 ## Citation
 
