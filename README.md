@@ -30,6 +30,47 @@
          - host: <your_host>
            port: <your_port>
            api_key: <your_api_key>
+
+
+gen_config:
+  Qwen/Qwen2.5-72B-Instruct:
+    max_tokens: 2048
+    temperature: 1.1
+    top_p: 0.995
+    extra_body:
+      top_k: -1
+      min_p: 0.0
+      repetition_penalty: 1.0
+      length_penalty: 1.0
+      stop:
+        - "<|endoftext|>"
+        - "[INST]"
+        - "[/INST]"
+        - "<|im_end|>"
+        - "<|end|>"
+        - "<|eot_id|>"
+        - "<end_of_turn>"
+        - "<eos>"
+        - "<|END_OF_TURN_TOKEN|>"
+        - "<EOS_TOKEN>"
+  mistralai/Mistral-Large-Instruct-2411:
+    max_tokens: 2048
+    temperature: 1.1
+    top_p: 0.995
+    extra_body:
+      top_k: -1
+      min_p: 0.0
+      repetition_penalty: 1.0
+      length_penalty: 1.0
+      stop:
+        - "<|endoftext|>"
+        - "[INST]"
+        - "[/INST]"
+        - "<|im_end|>"
+        - "<|end|>"
+        - "<|eot_id|>"
+        - "<end_of_turn>"
+        - "<eos>"
    ```
 
 3. Run the asynchronous data generation script:
