@@ -53,8 +53,6 @@ def insert_json_schema(data: dict, json_schema: dict, vllm=False) -> dict:
         }
     return new_data 
 
-
-
 def get_text_from_response(response):
     if not isinstance(response, dict):
         response = response.dict()
